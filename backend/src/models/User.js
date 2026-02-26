@@ -33,6 +33,10 @@ const userSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Wallet',
         },
+        isVerified: {
+            type: Boolean,
+            default: false,
+        },
     },
     {
         timestamps: true, // Auto manage createdAt and updatedAt

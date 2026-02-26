@@ -32,7 +32,7 @@ const gigSchema = new mongoose.Schema(
         },
     },
     {
-        timestamps: true, 
+        timestamps: true,
     }
 );
 

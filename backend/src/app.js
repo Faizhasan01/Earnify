@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
+import { errorHandler, notFound } from './middlewares/errorMiddleware.js';
 
 const app = express();
 
@@ -24,18 +25,15 @@ app.get('/api/health', (req, res) => {
 import authRoutes from './routes/authRoutes.js';
 import gigRoutes from './routes/gigRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
+import paymentRoutes from './routes/paymentRoutes.js';
 
 app.use('/api/auth', authRoutes);
 app.use('/api/gigs', gigRoutes);
 app.use('/api/orders', orderRoutes);
+app.use('/api/payment', paymentRoutes);
 
-// Error handling middleware
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).json({
-        success: false,
-        message: err.message || 'Internal Server Error',
-    });
-});
+// Error handling middlewares
+app.use(notFound);
+app.use(errorHandler);
 
 export default app;
