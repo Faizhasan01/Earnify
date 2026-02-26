@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema(
             type: String,
             required: [true, 'Please provide a password'],
             minlength: [6, 'Password must be at least 6 characters long'],
-            select: false, 
+            select: false,
         },
         role: {
             type: String,
@@ -40,18 +40,17 @@ const userSchema = new mongoose.Schema(
 );
 
 // Pre-save hook to hash the password before saving to the database
-userSchema.pre('save', async function (next) {
-    
-    if (!this.isModified('password')) return next();
+userSchema.pre('save', async function () {
+
+    if (!this.isModified('password')) return;
 
     try {
-        
+
         const salt = await bcrypt.genSalt(10);
         // Hash password
         this.password = await bcrypt.hash(this.password, salt);
-        next();
     } catch (error) {
-        next(error);
+        throw error;
     }
 });
 
