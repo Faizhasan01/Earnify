@@ -1,8 +1,6 @@
 import Gig from '../models/Gig.js';
 
-// @desc    Create a new gig
-// @route   POST /api/gigs
-// @access  Private (Seller only)
+
 export const createGig = async (req, res) => {
     try {
         // Ensure user has seller role
@@ -23,7 +21,7 @@ export const createGig = async (req, res) => {
             });
         }
 
-        // Create gig and attach seller ID from token (req.user is set in authMiddleware)
+        // Create gig and attach seller ID from token
         const gig = await Gig.create({
             title,
             description,
@@ -45,13 +43,9 @@ export const createGig = async (req, res) => {
     }
 };
 
-// @desc    Get all active gigs
-// @route   GET /api/gigs
-// @access  Public
 export const getAllGigs = async (req, res) => {
     try {
-        // Find only active gigs, sort newest first (createdAt descending),
-        // and populate seller info (name, email)
+        
         const gigs = await Gig.find({ isActive: true })
             .sort({ createdAt: -1 })
             .populate('seller', 'name email');

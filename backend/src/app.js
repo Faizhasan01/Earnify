@@ -23,9 +23,11 @@ app.get('/api/health', (req, res) => {
 // Import specific routes here later
 import authRoutes from './routes/authRoutes.js';
 import gigRoutes from './routes/gigRoutes.js';
+import orderRoutes from './routes/orderRoutes.js';
 
 app.use('/api/auth', authRoutes);
 app.use('/api/gigs', gigRoutes);
+app.use('/api/orders', orderRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

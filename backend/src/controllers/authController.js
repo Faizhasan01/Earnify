@@ -1,9 +1,7 @@
 import User from '../models/User.js';
 import jwt from 'jsonwebtoken';
 
-// @desc    Register a new user
-// @route   POST /api/auth/register
-// @access  Public
+
 export const register = async (req, res) => {
     try {
         const { name, email, password, role } = req.body;
@@ -16,7 +14,7 @@ export const register = async (req, res) => {
             });
         }
 
-        // Check if user already exists
+        // Check user exists already
         const userExists = await User.findOne({ email });
 
         if (userExists) {
@@ -61,9 +59,7 @@ export const register = async (req, res) => {
     }
 };
 
-// @desc    Login user & get token
-// @route   POST /api/auth/login
-// @access  Public
+
 export const login = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -75,7 +71,7 @@ export const login = async (req, res) => {
             });
         }
 
-        // Check for user and explicitly select password to be returned for comparison
+        // Check for user 
         const user = await User.findOne({ email }).select('+password');
 
         if (!user) {
@@ -85,7 +81,7 @@ export const login = async (req, res) => {
             });
         }
 
-        // Check if password matches
+        // password match
         const isMatch = await user.matchPassword(password);
 
         if (!isMatch) {
@@ -122,12 +118,10 @@ export const login = async (req, res) => {
     }
 };
 
-// @desc    Get current logged in user
-// @route   GET /api/auth/me
-// @access  Private
+
 export const getMe = async (req, res) => {
     try {
-        // req.user is set in our authMiddleware
+        // req.user is set in authMiddleware
         const user = await User.findById(req.user._id).select('-password');
 
         if (!user) {
